@@ -8,3 +8,7 @@ data/
 models/
 outputs/
 *.log
+!datasets/.gitkeep
+!data/.gitkeep
+!models/.gitkeep
+!outputs/.gitkeep
