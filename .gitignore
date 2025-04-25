@@ -1,0 +1,17 @@
+# Byte-code & virtual envs
+__pycache__/
+*.py[cod]
+.env
+.venv
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data, models, large outputs  (kept locally or via Git-LFS)
+datasets/
+data/
+models/
+outputs/
+
+# Logs
+*.log
