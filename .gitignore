@@ -12,3 +12,6 @@ outputs/
 !data/.gitkeep
 !models/.gitkeep
 !outputs/.gitkeep
+
+!datasets/
+!datasets/**
