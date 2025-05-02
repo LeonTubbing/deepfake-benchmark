@@ -1,5 +1,3 @@
-# Deepfake-Benchmark
-
 # Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools
 
 This repository contains a comprehensive benchmarking framework developed as part of a Master's Thesis titled "Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools" at the Rotterdam School of Management (RSM), Erasmus University, 2025.
@@ -12,15 +10,15 @@ The purpose of this project is to systematically compare the performance of vari
 
 Two publicly available deepfake datasets have been used:
 
-* FaceForensics++: Includes original and manipulated videos created using various deepfake methods (Deepfakes, FaceSwap, Face2Face, etc.) with different compression levels.
-* CelebDF (v2): Contains high-quality deepfake videos of celebrities, featuring natural and refined manipulations.
+* **FaceForensics++**: Includes original and manipulated videos created using various deepfake methods (Deepfakes, FaceSwap, Face2Face, etc.) with different compression levels.
+* **CelebDF (v2)**: Contains high-quality deepfake videos of celebrities, featuring natural and refined manipulations.
 
 The datasets have been preprocessed uniformly (frames extracted, faces cropped and aligned, resolution standardized) to ensure fair comparisons.
 
 ## Repository Structure
 
-* datasets/: Location for storing and accessing preprocessed datasets.
-* scripts/: Contains Python scripts for:
+* **datasets/**: Location for storing and accessing preprocessed datasets.
+* **scripts/**: Contains Python scripts for:
 
   * Data preprocessing (extracting and aligning frames)
   * Training, validation, and testing of deepfake detection models
@@ -30,33 +28,33 @@ The datasets have been preprocessed uniformly (frames extracted, faces cropped a
 
 The following deepfake detection architectures have been benchmarked:
 
-* CNN-Based Models (e.g., Xception, MesoNet)
-* Vision Transformer-Based Models (ViT)
-* Hybrid Architectures (Ensemble and multi-stream models combining CNN and Transformers)
-* Lightweight Models (MobileNet variants)
+* **CNN-Based Models** (e.g., Xception, MesoNet)
+* **Vision Transformer-Based Models** (ViT)
+* **Hybrid Architectures** (Ensemble and multi-stream models combining CNN and Transformers)
+* **Lightweight Models** (MobileNet variants)
 
 ## How to Use
 
 1. Clone the repository:
 
-
+```bash
 git clone <repository-url>
-
+```
 
 2. Install the required Python packages:
 
-
+```bash
 pip install -r requirements.txt
-
+```
 
 3. Place or download preprocessed datasets in the `datasets/` folder.
 
 4. Use provided scripts in `scripts/` folder to preprocess data, train models, and evaluate performance:
 
-
+```bash
 python scripts/train_model.py
 python scripts/evaluate_model.py
-
+```
 
 ## Contributions and Further Information
 
@@ -66,9 +64,8 @@ For a detailed explanation of methods, experiments, and results, please refer to
 
 ## Author
 
-Leon Tubbing – MSc Business Information Management, RSM, Erasmus University, 2025.
+* **Leon Tubbing** – MSc Business Information Management, RSM, Erasmus University, 2025.
 
 ## Supervisor
 
-Anna Priante – RSM, Erasmus University.
-
+* **Anna Priante** – RSM, Erasmus University.
