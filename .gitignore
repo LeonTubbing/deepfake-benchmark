@@ -15,3 +15,7 @@ outputs/
 
 !datasets/
 !datasets/**
+
+!data/**
+!models/**
+!outputs/**
