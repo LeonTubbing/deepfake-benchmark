@@ -28,10 +28,10 @@ The datasets have been preprocessed uniformly (frames extracted, faces cropped a
 
 The following deepfake detection architectures have been benchmarked:
 
-* **CNN-Based Models** (e.g., Xception, MesoNet)
+* **CNN-Based Models** (Xception)
 * **Vision Transformer-Based Models** (ViT)
 * **Hybrid Architectures** (Ensemble and multi-stream models combining CNN and Transformers)
-* **Lightweight Models** (MobileNet variants)
+* **Lightweight Models** (MobileNet(v3))
 
 ## How to Use
 
