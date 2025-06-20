@@ -1,3 +1,8 @@
+"""
+Spatio-temporal ViT deepfake detector training script.
+Replace 'path/to/train', 'path/to/val', and 'path/to/test' with your data directories.
+"""
+
 import os
 import time
 import cv2
