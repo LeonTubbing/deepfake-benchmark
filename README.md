@@ -29,7 +29,7 @@ All videos have been converted to aligned face crops at a uniform resolution so 
 │   │   ├── train/
 │   │   ├── test/
 │   │   └── val/
-│   └── faceforensics++/       # upcoming C23 & C40 splits
+│   └── faceforensics++/       # exactly same as celeb df structure
 │
 ├── scripts/
 │   ├── data_splitting/
@@ -71,7 +71,7 @@ Each training script saves checkpoints, TensorBoard logs, and automatically trig
 
 ## Getting Started at a Glance
 
-1. **Prepare data** – Place the pre‑processed folders shown above inside `datasets/` (or wait for the upcoming FaceForensics++ drops).
+1. **Prepare data** – Place the pre‑processed folders shown above inside `datasets/` 
 2. **Launch an experiment** – Pick a training script from `scripts/training_models/` and run it; the framework handles loader selection, augmentation, logging, and evaluation out of the box.
 3. **Inspect results** – Review the generated metrics and visualisations to compare models on your chosen dataset splits.
 
