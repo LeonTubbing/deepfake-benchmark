@@ -46,7 +46,6 @@ All videos have been converted to aligned face crops at a uniform resolution so 
 │   ├── evaluate_vit_b16.py
 │   └── evaluate_xception.py
 │
-├── src/                        # supporting utility modules
 ├── install_dependencies.py     # one‑shot environment setup helper
 └── README.md
 ```
