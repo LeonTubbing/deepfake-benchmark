@@ -16,9 +16,9 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from vit_keras import vit
 
-# --------------------------------------------------------------------
+
 # Configuration
-# --------------------------------------------------------------------
+
 TRAIN_DIR   = '/path/to/train'
 VAL_DIR     = '/path/to/val'
 TEST_DIR    = '/path/to/test'
@@ -31,9 +31,9 @@ EPOCHS_INIT = 5
 EPOCHS_FINE = 5
 UNFREEZE_N  = 10    # last N transformer blocks to unfreeze
 
-# --------------------------------------------------------------------
+
 # Video data sequence loader
-# --------------------------------------------------------------------
+
 class VideoSequence(Sequence):
     def __init__(self, video_paths, labels, batch_size, time_steps,
                  image_size, preprocess_fn, augment=False, shuffle=True):
@@ -95,9 +95,9 @@ class VideoSequence(Sequence):
         y = batch_labels.astype(np.float32)
         return X, y
 
-# --------------------------------------------------------------------
+
 # Helpers to list videos and labels
-# --------------------------------------------------------------------
+
 def list_videos_and_labels(base_dir):
     classes = sorted([d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d))])
     label_map = {cls: i for i, cls in enumerate(classes)}
@@ -121,9 +121,9 @@ val_seq   = VideoSequence(val_paths, val_labels, BATCH_SIZE, TIME_STEPS,
 test_seq  = VideoSequence(test_paths, test_labels, BATCH_SIZE, TIME_STEPS,
                           IMAGE_SIZE, preprocess_input, augment=False, shuffle=False)
 
-# --------------------------------------------------------------------
+
 # Build spatio-temporal ViT model
-# --------------------------------------------------------------------
+
 # base ViT processes per-frame
 base_vit = vit.vit_b16(
     image_size=IMAGE_SIZE,
@@ -183,9 +183,9 @@ print(f"Phase 2 took {(time.time() - start)/60:.2f} minutes\n")
 model.save('vit_spatiotemporal_detector.h5')
 print("Saved trained spatio-temporal model to vit_spatiotemporal_detector.h5\n")
 
-# --------------------------------------------------------------------
+
 # Evaluation on test set
-# --------------------------------------------------------------------
+
 print("=== Evaluating on Test Set ===")
 pred_prob   = model.predict(test_seq)
 pred_labels = (pred_prob > 0.5).astype(int).flatten()
