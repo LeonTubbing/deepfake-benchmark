@@ -1,62 +1,74 @@
-import cv2
 import os
-from mtcnn.mtcnn import MTCNN
-from tqdm import tqdm
 import time
 
+import cv2
+from mtcnn.mtcnn import MTCNN
+from tqdm import tqdm
+
+# ─── Configuration ─────────────────────────────────────────────────────────────
+# Directory containing input videos (mp4, avi, etc.)
+VIDEO_DIR = 'path/to/videos'
+# Directory where cropped face images will be saved
+OUTPUT_DIR = 'path/to/output_faces'
+# How many frames per second to process (1 = one frame each second)
+FRAME_RATE = 1
+# ───────────────────────────────────────────────────────────────────────────────
+
 def process_video(video_path, output_dir, frame_rate=1):
-    """
-    Processes a single video:
-      - Extracts one frame per second (or at a custom interval)
-      - Detects and crops the face using MTCNN
-      - Saves the cropped face image with a naming convention based on the video name and frame count.
-    """
+    """Extract one frame per `frame_rate` second, detect the largest face, and save crops."""
     os.makedirs(output_dir, exist_ok=True)
     video_name = os.path.splitext(os.path.basename(video_path))[0]
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print(f"Error opening video {video_path}")
+        print(f"Cannot open video: {video_path}")
         return
 
     fps = cap.get(cv2.CAP_PROP_FPS)
-    frame_interval = int(fps * frame_rate)
+    interval = int(fps * frame_rate)
     detector = MTCNN()
-    frame_count = 0
-    saved_count = 0
+    saved = 0
 
+    frame_idx = 0
     while True:
         ret, frame = cap.read()
         if not ret:
             break
-        
-        if frame_count % frame_interval == 0:
-            detections = detector.detect_faces(frame)
-            if detections:
-                face = max(detections, key=lambda d: d['box'][2] * d['box'][3])
+
+        # Only run detection on every `interval`th frame
+        if frame_idx % interval == 0:
+            faces = detector.detect_faces(frame)
+            if faces:
+                # Choose the face with the largest area
+                face = max(faces, key=lambda f: f['box'][2] * f['box'][3])
                 x, y, w, h = face['box']
+                # Ensure coords are within the image
                 x, y = max(x, 0), max(y, 0)
-                face_crop = frame[y:y+h, x:x+w]
-                output_filename = f"{video_name}_P{saved_count+1:03d}.png"
-                cv2.imwrite(os.path.join(output_dir, output_filename), face_crop)
-                saved_count += 1
-        
-        frame_count += 1
+                crop = frame[y:y+h, x:x+w]
+                filename = f"{video_name}_P{saved+1:03d}.png"
+                cv2.imwrite(os.path.join(output_dir, filename), crop)
+                saved += 1
+
+        frame_idx += 1
 
     cap.release()
-    print(f"Processed video '{video_name}': extracted {saved_count} face images.")
+    print(f"[{video_name}] Extracted {saved} faces.")
 
-# Example usage: Process all videos in a directory with progress bar and time
-video_dir = 'give the pathname to your directory'
-output_folder = 'give the pathname to your directory'
+if __name__ == '__main__':
+    # Ensure output directory exists
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-os.makedirs(output_folder, exist_ok=True)
-video_files = [f for f in os.listdir(video_dir) if f.endswith(('.mp4', '.avi'))]
+    # Gather all video files in the input directory
+    videos = [
+        f for f in os.listdir(VIDEO_DIR)
+        if f.lower().endswith(('.mp4', '.avi', '.mov'))
+    ]
 
-start_time = time.time()
-
-for video_file in tqdm(video_files, desc="Processing videos", unit="video"):
-    video_path = os.path.join(video_dir, video_file)
-    process_video(video_path, output_folder, frame_rate=1)
-
-elapsed_time = time.time() - start_time
-print(f"\n All videos processed in {elapsed_time / 60:.2f} minutes.")
+    start = time.time()
+    for vid in tqdm(videos, desc="Processing videos"):
+        process_video(
+            video_path=os.path.join(VIDEO_DIR, vid),
+            output_dir=OUTPUT_DIR,
+            frame_rate=FRAME_RATE
+        )
+    elapsed = time.time() - start
+    print(f"All done in {elapsed/60:.2f} minutes.")
