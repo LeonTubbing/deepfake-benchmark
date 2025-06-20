@@ -1,71 +1,92 @@
 # Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools
 
-This repository contains a comprehensive benchmarking framework developed as part of a Master's Thesis titled "Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools" at the Rotterdam School of Management (RSM), Erasmus University, 2025.
+This repository accompanies the Master’s Thesis *“Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools”* (Rotterdam School of Management, Erasmus University, 2025). It brings together curated datasets, reproducible training pipelines, and evaluation utilities designed to make head‑to‑head comparisons between state‑of‑the‑art deepfake detectors straightforward and transparent.
+
+---
 
 ## Overview
 
-The purpose of this project is to systematically compare the performance of various deepfake detection tools using standardized conditions and datasets. The benchmarking evaluates several deep learning architectures, focusing on accuracy, robustness, interpretability, and computational efficiency.
+The framework quantifies how different neural‑network architectures perform when faced with diverse forgeries and compression settings. Beyond raw accuracy, it facilitates side‑by‑side inspection of robustness, inference speed, and model interpretability, enabling researchers to pinpoint architectures that best fit their constraints and threat models.
+
+---
 
 ## Datasets
 
-Two publicly available deepfake datasets have been used:
+| Dataset             | Compression Variants                        | Status in Repo                                                                                       |
+| ------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **CelebDF (v2)**    | High‑quality originals & manipulated videos | ✔ Pre‑processed & split into `train/`, `test/`, `val/`                                               |
+| **FaceForensics++** | *C23* & *C40* (H.264 compression levels)    | ✔ Pre‑processed splits `train/`, `test/`, `val/`
 
-* **FaceForensics++**: Includes original and manipulated videos created using various deepfake methods (Deepfakes, FaceSwap, Face2Face, etc.) with different compression levels.
-* **CelebDF (v2)**: Contains high-quality deepfake videos of celebrities, featuring natural and refined manipulations.
+All videos have been converted to aligned face crops at a uniform resolution so that training scripts can work plug‑and‑play across sources.
 
-The datasets have been preprocessed uniformly (frames extracted, faces cropped and aligned, resolution standardized) to ensure fair comparisons.
+---
 
-## Repository Structure
+## Repository Layout
 
-* **datasets/**: Location for storing and accessing preprocessed datasets.
-* **scripts/**: Contains Python scripts for:
+```text
+├── datasets/
+│   ├── celeb_df_v2/
+│   │   ├── train/
+│   │   ├── test/
+│   │   └── val/
+│   └── faceforensics++/       # upcoming C23 & C40 splits
+│
+├── scripts/
+│   ├── data_splitting/
+│   │   └── split_and_structure_real_fake.py
+│   ├── frame_extraction/
+│   │   └── video_face_extractor.py
+│   ├── training_models/
+│   │   ├── train_hybrid.py
+│   │   ├── train_mobilenetv3.py
+│   │   ├── train_vit.py
+│   │   └── train_xception.py
+│   ├── evaluate_hybrid.py
+│   ├── evaluate_mobilenetv3.py
+│   ├── evaluate_vit_b16.py
+│   └── evaluate_xception.py
+│
+├── src/                        # supporting utility modules
+├── install_dependencies.py     # one‑shot environment setup helper
+└── README.md
+```
 
-  * Data preprocessing (extracting and aligning frames)
-  * Training, validation, and testing of deepfake detection models
-  * Evaluation and visualization of results
+* **datasets/** – Drop‑in location for the aligned face crops used in experiments.
+* **scripts/** – Modular helpers for splitting raw data, extracting frames, launching training runs, and generating evaluation metrics.
 
-## Detection Tools Evaluated
+---
 
-The following deepfake detection architectures have been benchmarked:
+## Detection Architectures Benchmarked
 
-* **CNN-Based Models** (Xception)
-* **Vision Transformer-Based Models** (ViT)
-* **Hybrid Architectures** (Ensemble and multi-stream models combining CNN and Transformers)
-* **Lightweight Models** (MobileNet(v3))
+| Category                 | Implementations in `scripts/training_models/` |
+| ------------------------ | --------------------------------------------- |
+| **CNN Backbone**         | `train_xception.py` (Xception)                |
+| **Vision Transformer**   | `train_vit.py` (ViT‑B/16)                     |
+| **Hybrid / Ensemble**    | `train_hybrid.py` (CNN + Transformer fusion)  |
+| **Lightweight / Mobile** | `train_mobilenetv3.py` (MobileNet V3)         |
 
-## How to Use
+Each training script saves checkpoints, TensorBoard logs, and automatically triggers the paired *evaluate* script to generate ROC curves and class‑balanced metrics.
 
-1. Clone the repository:
+---
 
-bash
-git clone <repository-url>
+## Getting Started at a Glance
 
+1. **Prepare data** – Place the pre‑processed folders shown above inside `datasets/` (or wait for the upcoming FaceForensics++ drops).
+2. **Launch an experiment** – Pick a training script from `scripts/training_models/` and run it; the framework handles loader selection, augmentation, logging, and evaluation out of the box.
+3. **Inspect results** – Review the generated metrics and visualisations to compare models on your chosen dataset splits.
 
-2. Install the required Python packages:
+---
 
-bash
-pip install -r requirements.txt
+## Contributing
 
+Bug reports, pull requests, and dataset extension suggestions are warmly welcomed. Opening an issue with a short reproducible example is the fastest way to get something addressed.
 
-3. Place or download preprocessed datasets in the datasets/ folder.
-
-4. Use provided scripts in scripts/ folder to preprocess data, train models, and evaluate performance:
-
-bash
-python scripts/train_model.py
-python scripts/evaluate_model.py
-
-
-## Contributions and Further Information
-
-This repository is primarily intended for researchers and developers interested in deepfake detection. Contributions, feedback, and suggestions are welcome. Please contact the repository owner or submit issues via GitHub.
-
-For a detailed explanation of methods, experiments, and results, please refer to the accompanying Master's Thesis document.
+---
 
 ## Author
 
-* **Leon Tubbing** – MSc Business Information Management, RSM, Erasmus University, 2025.
+**Leon Tubbing** – MSc Business Information Management, RSM, Erasmus University, 2025.
 
 ## Supervisor
 
-* **Anna Priante** – RSM, Erasmus University.
+**Anna Priante** – Rotterdam School of Management, Erasmus University.
