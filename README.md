@@ -1,4 +1,3 @@
-````markdown
 # Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools
 
 This repository contains a comprehensive benchmarking framework developed as part of a Master's Thesis titled "Truth vs. Deception: A Benchmarking Framework for Deepfake Detection Tools" at the Rotterdam School of Management (RSM), Erasmus University, 2025.
@@ -18,7 +17,7 @@ The datasets have been preprocessed uniformly (frames extracted, faces cropped a
 
 ## Repository Structure
 
-* **datasets/**: Location for storing and accessing preprocessed datasets.  
+* **datasets/**: Location for storing and accessing preprocessed datasets.
 * **scripts/**: Contains Python scripts for:
 
   * Data preprocessing (extracting and aligning frames)
@@ -29,33 +28,33 @@ The datasets have been preprocessed uniformly (frames extracted, faces cropped a
 
 The following deepfake detection architectures have been benchmarked:
 
-* **CNN-Based Models** (Xception)  
-* **Vision Transformer-Based Models** (ViT)  
-* **Hybrid Architectures** (Ensemble and multi-stream models combining CNN and Transformers)  
+* **CNN-Based Models** (Xception)
+* **Vision Transformer-Based Models** (ViT)
+* **Hybrid Architectures** (Ensemble and multi-stream models combining CNN and Transformers)
 * **Lightweight Models** (MobileNet(v3))
 
 ## How to Use
 
 1. Clone the repository:
 
-    ```bash
-    git clone <repository-url>
-    ```
+bash
+git clone <repository-url>
+
 
 2. Install the required Python packages:
 
-    ```bash
-    python install_dependencies.py
-    ```
+bash
+pip install -r requirements.txt
 
-3. Place or download preprocessed datasets in the `datasets/` folder.
 
-4. Use provided scripts in `scripts/` folder to preprocess data, train models, and evaluate performance:
+3. Place or download preprocessed datasets in the datasets/ folder.
 
-    ```bash
-    python scripts/train_model.py
-    python scripts/evaluate_model.py
-    ```
+4. Use provided scripts in scripts/ folder to preprocess data, train models, and evaluate performance:
+
+bash
+python scripts/train_model.py
+python scripts/evaluate_model.py
+
 
 ## Contributions and Further Information
 
@@ -69,5 +68,4 @@ For a detailed explanation of methods, experiments, and results, please refer to
 
 ## Supervisor
 
-* **Anna Priante** – RSM, Erasmus University.  
-````
+* **Anna Priante** – RSM, Erasmus University.
